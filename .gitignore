@@ -1,1 +1,4 @@
-.READEME.md
+# .idea/** /full folder
+# .idea/* /all file
+
+.idea/*/READEME.md
