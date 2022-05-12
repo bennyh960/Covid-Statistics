@@ -13,7 +13,7 @@
       <h1>CORONA VIRUS STATISTICS</h1>
       <div class="container-region-btn">
         <div>
-          <label for="data-region">Choose Region:</label>
+          <label for="data-region">Choose Continent:</label>
           <select name="data-region" id="data-region">
             <option value="world">World</option>
             <option value="asia">Asia</option>
@@ -33,13 +33,25 @@
         </div>
       </div>
       <div class="container-data">
-        <h2 id="data-who">Israel</h2>
-        <div class="chart"></div>
+        <h3 class="data-who">World <span id="caseTitle">Confirmed</span></h3>
+        <div class="statistics">
+          <div class="chart"></div>
+          <div class="raw-data">
+            <!-- draw table with -->
+            <h3 class="data-who">World</h3>
+            <div><span class="nameofStats">Confirm : </span><span id="confirm-stats">3M</span></div>
+            <div><span class="nameofStats">Critical : </span><span id="critical-stats">100K</span></div>
+            <div><span class="nameofStats">Recovered : </span><span id="recoverd-stats">2M</span></div>
+            <div><span class="nameofStats">Death : </span><span id="death-stats">50K</span></div>
+            <div><span class="nameofStats">New Cases : </span><span id="newCases-stats">10K</span></div>
+            <div><span class="nameofStats">New Deaths: </span><span id="newDeath-stats">100</span></div>
+          </div>
+        </div>
         <div class="container-stats-btn">
-          <button class="button-1 confirm" role="button">Confirmed</button>
-          <button class="button-1 critical" role="button">Critical</button>
-          <button class="button-1 recovered" role="button">Recovered</button>
-          <button class="button-1 death">Death</button>
+          <button class="button-1 confirm-btn" role="button">Confirmed</button>
+          <button class="button-1 critical-btn" role="button">Critical</button>
+          <button class="button-1 recovered-btn" role="button">Recovered</button>
+          <button class="button-1 death-btn">Death</button>
         </div>
       </div>
     </div>

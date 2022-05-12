@@ -1,41 +1,17 @@
-/* <!-- HTML !-->
-<button class="button-1" role="button">Button 1</button> */
-
-.confirm {
-  background-color: #ea4c89;
-}
-.critical {
-  background-color: #fb8332;
-}
-
-.recovered {
-  background-color: #2c974b;
-}
-
-.death {
-  background-color: #f04242;
-}
 /* CSS */
 .button-1 {
-  /* background-color: #ea4c89; */
-  border-radius: 0.8rem;
+  background-color: #d2d2d2;
   border-style: none;
   color: #ffffff;
   cursor: pointer;
-  /* display: inline-block; */
-  /* font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif; */
+  flex: 1;
+  display: inline-block;
   font-size: 1.4rem;
   font-weight: 500;
-  /* height: 40px; */
-  /* line-height: 1.5rem; */
   list-style: none;
-  margin: 0;
   outline: none;
   border: 3px solid transparent;
-  /* padding: 10px 16px; */
-  /* position: relative; */
   text-align: center;
-  /* text-decoration: none; */
   transition: color 100ms;
   vertical-align: baseline;
   user-select: none;
@@ -43,11 +19,26 @@
   touch-action: manipulation;
 }
 
-.button-1:hover,
-.button-1:focus {
-  border: black 3px solid;
-}
 .button-1:focus {
   color: black;
   font-weight: bold;
+}
+
+.confirm-btn:hover,
+.confirm-btn:focus {
+  background-color: #ea4c89;
+}
+.critical-btn:hover,
+.critical-btn:focus {
+  background-color: #fb8332;
+}
+
+.recovered-btn:hover,
+.recovered-btn:focus {
+  background-color: #2c974b;
+}
+
+.death-btn:hover,
+.death-btn:focus {
+  background-color: #f04242;
 }
