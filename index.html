@@ -4,10 +4,46 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./CSS/button.css" />
     <link rel="stylesheet" href="./CSS/style.css" />
     <title>Covid Statistics</title>
   </head>
   <body>
+    <div class="container-all">
+      <h1>CORONA VIRUS STATISTICS</h1>
+      <div class="container-region-btn">
+        <div>
+          <label for="data-region">Choose Region:</label>
+          <select name="data-region" id="data-region">
+            <option value="world">World</option>
+            <option value="asia">Asia</option>
+            <option value="europe">Europe</option>
+            <option value="africa">Africa</option>
+            <option value="america">America</option>
+          </select>
+          <input type="search" placeholder="Search country" />
+        </div>
+        <div>
+          <label for="char-type">Char Type:</label>
+          <select name="char-type" id="char-type">
+            <option value="typeA">a</option>
+            <option value="typeB">b</option>
+            <option value="typeC">c</option>
+          </select>
+        </div>
+      </div>
+      <div class="container-data">
+        <h2 id="data-who">Israel</h2>
+        <div class="chart"></div>
+        <div class="container-stats-btn">
+          <button class="button-1 confirm" role="button">Confirmed</button>
+          <button class="button-1 critical" role="button">Critical</button>
+          <button class="button-1 recovered" role="button">Recovered</button>
+          <button class="button-1 death">Death</button>
+        </div>
+      </div>
+    </div>
+
     <script src="./scripts/app.js" type="module"></script>
   </body>
 </html>
