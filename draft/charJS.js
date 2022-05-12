@@ -1,8 +1,13 @@
-import axios from "axios";
+//example how to work with charjs basic of basic
 
-// export function a() {}
-
-// export default function b() {}
+//HTML
+{
+  /* <body>
+<div class="container">
+  <canvas id="myChart"></canvas>
+</div>
+</body> */
+}
 
 let myChart = document.getElementById("myChart").getContext("2d");
 
@@ -28,10 +33,34 @@ let massPopChart = new Chart(myChart, {
       },
     ],
   },
-  options: {},
+  options: {
+    title: {
+      display: true,
+      text: "Largest City Population",
+      fontSize: 25,
+    },
+    legend: {
+      display: false, // true
+      position: "right",
+      labels: {
+        fontColor: "gray",
+      },
+    },
+    layout: {
+      padding: {
+        left: 50,
+        right: 0,
+        bottom: 0,
+        top: 0,
+      },
+    },
+    tooltips: {
+      enabled: false, //true
+    },
+  },
 });
 
-export const fetcData = axios.get("https://corona-api.com/countries");
+const fetcData = axios.get("https://corona-api.com/countries");
 console.log(fetcData);
 
 const fetchData2 = fetch("https://corona-api.com/countries").then("");
