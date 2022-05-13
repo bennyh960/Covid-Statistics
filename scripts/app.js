@@ -1,64 +1,55 @@
-import { getAllCoronaDataInObj } from "./data.js";
+import { getAllCoronaDataInObj } from "./dataAnalysis.js";
+import { chartObj } from "./chart.js";
+import { continents } from "./dataObject.js";
 
-// const countryDataObj = getCountryFromLocalStorage();
-// const coronaDataObj = getCoronaFromLocalStorage();
-
-const continents = {
-  asia: [],
-  europe: [],
-  americas: [],
-  africa: [],
-  oceania: [],
-  tempData: {
-    name: undefined,
-    population: undefined,
-    updateDate: undefined,
-    confirmed: undefined,
-    critical: undefined,
-    recovered: undefined,
-    death: undefined,
-    today: undefined,
-  },
-};
-
-continents.getDataByCountry = function (continentKey, countryInput) {
-  const findCountry = this[continentKey].find((c) => c !== undefined && c.name === countryInput);
-  this.tempData.name = findCountry.name;
-  this.tempData.population = findCountry.population;
-  this.tempData.updateDate = findCountry.updated_at;
-  this.tempData.confirmed = findCountry.latest_data.confirmed;
-  this.tempData.critical = findCountry.latest_data.critical;
-  this.tempData.recovered = findCountry.latest_data.recovered;
-  this.tempData.death = findCountry.latest_data.deaths;
-  this.tempData.today = findCountry.today;
-  //   console.log(continents.tempData);
-};
-
-continents.sumDataPerContinent = function (continentKey) {
-  const totalPerContinent = {
-    population: 0,
-    confirmed: 0,
-    critical: 0,
-    recovered: 0,
-    death: 0,
-    // today: undefined,
-  };
-  this[continentKey].forEach((country) => {
-    if (country !== undefined) {
-      this.getDataByCountry(continentKey, country.name);
-      for (let key in totalPerContinent) {
-        totalPerContinent[key] += this.tempData[key];
-      }
-    }
-  });
-  return totalPerContinent;
-};
-
+let dataChart;
+// *===================================================================== main function ==========================================
 async function main() {
   await getAllCoronaDataInObj(continents);
   await continents.getDataByCountry("asia", "Israel");
-  //   await continents.getDataByCountry("americas", "Israel");
-  //   await continents.getDataByCountry("europe", "Israel");
-  await continents.sumDataPerContinent("asia");
+  //   console.log(continents.tempData);
+  //   todo: sum all per country need to fix due to it use tempdata on loop and overwrite it
+  //   await continents.sumDataPerContinent("asia");
+  let myChart = document.getElementById("myChart").getContext("2d");
+
+  chartObj.getLabels(continents, "asia");
+  chartObj.getData(continents, "asia", "confirmed");
+
+  dataChart = new Chart(myChart, chartObj);
 }
+
+// * Invoke all project functions*//
 main();
+
+document.getElementById("char-type").addEventListener("change", (e) => {
+  chartObj.changeTypeOfChart(e.target.value);
+
+  dataChart.update();
+});
+
+document.querySelector(".container-stats-btn").addEventListener("click", (e) => {
+  //   chartObj.changeTypeOfChart(e.target.value);
+  chartObj.getData(continents, "asia", e.target.value);
+  chartObj.setLabelAndColor(e.target.value);
+  //   todo : this func should invoke when country select and not here
+  updateNumericData(continents.tempData);
+  dataChart.update();
+});
+
+function updateNumericData(obj) {
+  document.querySelectorAll(".dataPerInput").forEach((numeric, idx) => {
+    const objKeyArr = Object.keys(obj);
+    const key = objKeyArr[idx];
+    // console.log(key);
+    numeric.textContent = intToString(obj[key]);
+  });
+  console.log(obj.tempData);
+}
+
+function intToString(n) {
+  if (n < 1e3) return n;
+  if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(2) + "K";
+  if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(2) + "M";
+  if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(2) + "B";
+  if (n >= 1e12) return +(n / 1e12).toFixed(2) + "T";
+}

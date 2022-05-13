@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./CSS/button.css" />
     <link rel="stylesheet" href="./CSS/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <title>Covid Statistics</title>
   </head>
   <body>
@@ -24,35 +25,38 @@
           </select>
           <input type="search" placeholder="Search country" />
         </div>
+        <div><h5 id="lastUpdateScreen"></h2></div>
         <div>
           <label for="char-type">Char Type:</label>
           <select name="char-type" id="char-type">
-            <option value="typeA">a</option>
-            <option value="typeB">b</option>
-            <option value="typeC">c</option>
+            <option value="line">Line</option>
+            <option value="bar">Bar</option>
+            <option value="pie">Pie</option>
           </select>
         </div>
       </div>
       <div class="container-data">
         <h3 class="data-who">World <span id="caseTitle">Confirmed</span></h3>
         <div class="statistics">
-          <div class="chart"></div>
+          
           <div class="raw-data">
-            <!-- draw table with -->
-            <h3 class="data-who">World</h3>
-            <div><span class="nameofStats">Confirm : </span><span id="confirm-stats">3M</span></div>
-            <div><span class="nameofStats">Critical : </span><span id="critical-stats">100K</span></div>
-            <div><span class="nameofStats">Recovered : </span><span id="recoverd-stats">2M</span></div>
-            <div><span class="nameofStats">Death : </span><span id="death-stats">50K</span></div>
-            <div><span class="nameofStats">New Cases : </span><span id="newCases-stats">10K</span></div>
-            <div><span class="nameofStats">New Deaths: </span><span id="newDeath-stats">100</span></div>
+
+            <div><span class="nameofStats">Confirm :</span><span class="dataPerInput" id="confirm-stats">3M</span></div>
+            <div><span class="nameofStats">Critical :</span><span class="dataPerInput" id="critical-stats">100K</span></div>
+            <div><span class="nameofStats">Recovered :</span><span class="dataPerInput" id="recoverd-stats">2M</span></div>
+            <div><span class="nameofStats">Death :</span><span class="dataPerInput" id="death-stats">50K</span></div>
+            <div><span class="nameofStats">New Cases :</span><span class="dataPerInput" id="newCases-stats">10K</span></div>
+            <div><span class="nameofStats">New Deaths:  </span><span class="dataPerInput" id="newDeath-stats">100</span></div>
+          </div>
+          <div class="chart">
+            <canvas id="myChart"  style="height:100%; width:100%;"></canvas>></canvas>
           </div>
         </div>
         <div class="container-stats-btn">
-          <button class="button-1 confirm-btn" role="button">Confirmed</button>
-          <button class="button-1 critical-btn" role="button">Critical</button>
-          <button class="button-1 recovered-btn" role="button">Recovered</button>
-          <button class="button-1 death-btn">Death</button>
+          <button class="button-1 confirm-btn" value="confirmed" role="button">Confirmed</button>
+          <button class="button-1 critical-btn" value="critical" role="button">Critical</button>
+          <button class="button-1 recovered-btn" value="recovered" role="button">Recovered</button>
+          <button class="button-1 death-btn" value="deaths">Death</button>
         </div>
       </div>
     </div>
