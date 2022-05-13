@@ -10,26 +10,30 @@ export const continents = {
   africa: [],
   oceania: [],
   tempData: {
-    // name: undefined,
     // population: undefined,
     confirmed: undefined,
     critical: undefined,
     recovered: undefined,
     death: undefined,
-    today: undefined,
+    todayC: undefined,
+    todayD: undefined,
+    name: undefined,
   },
 };
 
 continents.getDataByCountry = function (continentKey, countryInput) {
   const findCountry = this[continentKey].find((c) => c !== undefined && c.name === countryInput);
-  this.tempData.name = findCountry.name;
-  this.tempData.population = findCountry.population;
-  this.tempData.confirmed = findCountry.latest_data.confirmed;
-  this.tempData.critical = findCountry.latest_data.critical;
-  this.tempData.recovered = findCountry.latest_data.recovered;
-  this.tempData.death = findCountry.latest_data.deaths;
-  this.tempData.today = findCountry.today;
-  console.log(continents.tempData);
+  // this.tempData.population = findCountry.population;
+  if (findCountry) {
+    this.tempData.confirmed = findCountry.latest_data.confirmed;
+    this.tempData.critical = findCountry.latest_data.critical;
+    this.tempData.recovered = findCountry.latest_data.recovered;
+    this.tempData.death = findCountry.latest_data.deaths;
+    this.tempData.todayC = findCountry.today.confirmed;
+    this.tempData.todayD = findCountry.today.deaths;
+    this.tempData.name = findCountry.name;
+    // console.log(continents.tempData);
+  }
 };
 
 continents.sumDataPerContinent = function (continentKey) {

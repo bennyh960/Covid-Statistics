@@ -35,14 +35,18 @@ export const chartObj = {
   type: "line",
   options: options,
   data: data,
-  getLabels(continentObj, key) {
-    this.data.labels = continentObj[key].map((country, idx) => {
-      if (country !== undefined) {
-        return country.name;
-      } else {
-        return "notDef";
-      }
-    });
+  getLabels(continentObj, key, isOnlyOneContinent) {
+    if (isOnlyOneContinent) {
+      this.data.labels = continentObj[key].map((country, idx) => {
+        if (country !== undefined) {
+          return country.name;
+        } else {
+          return "notDef";
+        }
+      });
+    } else {
+      this.data.labels = Object.keys(continentObj).slice(0, 5);
+    }
   },
   getData(continentObj, key, caseKey) {
     this.data.datasets[0].data = continentObj[key].map((country) => {

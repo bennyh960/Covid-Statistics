@@ -1,18 +1,19 @@
 import { getAllCoronaDataInObj } from "./dataAnalysis.js";
 import { chartObj } from "./chart.js";
 import { continents } from "./dataObject.js";
+import { updateNumericData } from "./updateScreenData.js";
 
 let dataChart;
 // *===================================================================== main function ==========================================
 async function main() {
   await getAllCoronaDataInObj(continents);
-  await continents.getDataByCountry("asia", "Israel");
+  await continents.getDataByCountry("asia", "India");
   //   console.log(continents.tempData);
   //   todo: sum all per country need to fix due to it use tempdata on loop and overwrite it
   //   await continents.sumDataPerContinent("asia");
   let myChart = document.getElementById("myChart").getContext("2d");
 
-  chartObj.getLabels(continents, "asia");
+  chartObj.getLabels(continents, "asia", true);
   chartObj.getData(continents, "asia", "confirmed");
 
   dataChart = new Chart(myChart, chartObj);
@@ -21,35 +22,64 @@ async function main() {
 // * Invoke all project functions*//
 main();
 
+// * ============================================ Events
 document.getElementById("char-type").addEventListener("change", (e) => {
   chartObj.changeTypeOfChart(e.target.value);
-
   dataChart.update();
 });
+
+// ==========================================================================
+// select region to show data
+function createDropDownOptionToSearch(event) {
+  const dataList = document.getElementById("searchCountry");
+  dataList.innerHTML = "";
+  continents[event.target.value].forEach((country) => {
+    const countryOpt = document.createElement("option");
+    if (country) {
+      //   console.log(country);
+      countryOpt.value = country.name;
+      dataList.appendChild(countryOpt);
+    }
+  });
+}
+
+const helperMemory = {
+  case: "confirmed",
+  continent: "asia",
+};
+function countrySelectedToShow(eventFather) {
+  const selectedCountry = document.querySelector("#searchedAndSelected");
+  selectedCountry.addEventListener("change", async () => {
+    if (eventFather) {
+      await continents.getDataByCountry(eventFather.target.value, selectedCountry.value);
+      chartObj.getData(continents, eventFather.target.value, helperMemory.case);
+    }
+    updateNumericData(continents.tempData);
+  });
+}
+
+document.getElementById("data-region").addEventListener("change", async (e) => {
+  helperMemory.continent = e.target.value;
+
+  if (e.target.value === "world") {
+    chartObj.getLabels(continents, e.target.value, false);
+  } else {
+    chartObj.getLabels(continents, e.target.value, true);
+  }
+
+  //   continents.sumDataPerContinent("asia");
+  createDropDownOptionToSearch(e);
+  countrySelectedToShow(e);
+  dataChart.update();
+});
+
+// =========================================================================
 
 document.querySelector(".container-stats-btn").addEventListener("click", (e) => {
-  //   chartObj.changeTypeOfChart(e.target.value);
-  chartObj.getData(continents, "asia", e.target.value);
+  chartObj.getData(continents, helperMemory.continent, e.target.value);
+  helperMemory.case = e.target.value;
   chartObj.setLabelAndColor(e.target.value);
-  //   todo : this func should invoke when country select and not here
-  updateNumericData(continents.tempData);
   dataChart.update();
+  //   console.log(continents.sumDataPerContinent("asia"));
+  //   console.log(continents.tempData);
 });
-
-function updateNumericData(obj) {
-  document.querySelectorAll(".dataPerInput").forEach((numeric, idx) => {
-    const objKeyArr = Object.keys(obj);
-    const key = objKeyArr[idx];
-    // console.log(key);
-    numeric.textContent = intToString(obj[key]);
-  });
-  console.log(obj.tempData);
-}
-
-function intToString(n) {
-  if (n < 1e3) return n;
-  if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(2) + "K";
-  if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(2) + "M";
-  if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(2) + "B";
-  if (n >= 1e12) return +(n / 1e12).toFixed(2) + "T";
-}

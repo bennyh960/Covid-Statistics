@@ -23,7 +23,10 @@
             <option value="america">America</option>
             <option value="oceania">Oceania</option>
           </select>
-          <input type="search" placeholder="Search country" />
+          <!-- <input type="search" placeholder="Search country" /> -->
+          <input list="searchCountry" placeholder="Search Country" id="searchedAndSelected">
+            <datalist id="searchCountry">
+            </datalist>  
         </div>
         <div><h5 id="lastUpdateScreen"></h2></div>
         <div>
@@ -36,17 +39,18 @@
         </div>
       </div>
       <div class="container-data">
-        <h3 class="data-who">World <span id="caseTitle">Confirmed</span></h3>
+        <!-- <h3 class="data-who">World <span id="caseTitle">Confirmed</span></h3> -->
+        <h3 class="data-who">World </h3>
         <div class="statistics">
           
           <div class="raw-data">
 
-            <div><span class="nameofStats">Confirm :</span><span class="dataPerInput" id="confirm-stats">3M</span></div>
-            <div><span class="nameofStats">Critical :</span><span class="dataPerInput" id="critical-stats">100K</span></div>
-            <div><span class="nameofStats">Recovered :</span><span class="dataPerInput" id="recoverd-stats">2M</span></div>
-            <div><span class="nameofStats">Death :</span><span class="dataPerInput" id="death-stats">50K</span></div>
-            <div><span class="nameofStats">New Cases :</span><span class="dataPerInput" id="newCases-stats">10K</span></div>
-            <div><span class="nameofStats">New Deaths:  </span><span class="dataPerInput" id="newDeath-stats">100</span></div>
+            <div><span class="nameofStats">Confirm :</span><span class="dataPerInput" id="confirm-stats"></span></div>
+            <div><span class="nameofStats">Critical :</span><span class="dataPerInput" id="critical-stats"></span></div>
+            <div><span class="nameofStats">Recovered :</span><span class="dataPerInput" id="recoverd-stats"></span></div>
+            <div><span class="nameofStats">Death :</span><span class="dataPerInput" id="death-stats"></span></div>
+            <div><span class="nameofStats">New Cases :</span><span class="dataPerInput" id="newCases-stats"></span></div>
+            <div><span class="nameofStats">New Deaths:  </span><span class="dataPerInput" id="newDeath-stats"></span></div>
           </div>
           <div class="chart">
             <canvas id="myChart"  style="height:100%; width:100%;"></canvas>></canvas>
