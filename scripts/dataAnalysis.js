@@ -66,7 +66,8 @@ async function getCoronaFromLocalStorage() {
 // *======================================================= Create Obj with all Data ====================================
 
 function buildContinentsObj(country, obj, validCoronaDataArr) {
-  for (let key in obj) {
+  // for (let key in obj) {
+  for (let key of Object.keys(obj).slice(1, 6)) {
     const keyName = key[0].toUpperCase() + key.slice(1);
     continentsAddCountries(country, obj[key], keyName, validCoronaDataArr);
   }
@@ -85,23 +86,7 @@ function continentsAddCountries(iterator, array, continent, coronaByCountryArray
 export async function getAllCoronaDataInObj(obj) {
   const coronaData = await getCoronaFromLocalStorage();
   const countryData = await getCountryFromLocalStorage();
-  // !this code line can fix undifind country name
-  // coronaData.data.forEach((validData, idx) => {
-  //   if (validData.latest_data.confirmed < 100) {
-  //     coronaData.data.splice(idx, 1);
-  //   }
-  // });
   countryData.forEach((country) => {
     buildContinentsObj(country, obj, coronaData.data);
   });
 }
-
-// ?work same as async function
-// coronaDataObj.then((corona) => {
-//   countryDataObj.then((data) => {
-//     data.forEach((country) => {
-//       buildContinentsObj(country, continents, corona);
-//     });
-//     console.log(continents);
-//   });
-// });

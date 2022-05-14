@@ -26,6 +26,7 @@ const options = {
       },
     },
     xAxes: [{ ticks: { fontSize: 8 } }],
+    // yAxes: [{ ticks: { max:  } }],
   },
 };
 
@@ -39,23 +40,30 @@ export const chartObj = {
     if (isOnlyOneContinent) {
       this.data.labels = continentObj[key].map((country, idx) => {
         if (country !== undefined) {
-          return country.name;
+          return country.name.slice(0, 10);
         } else {
           return "notDef";
         }
       });
     } else {
-      this.data.labels = Object.keys(continentObj).slice(0, 5);
+      this.data.labels = Object.keys(continentObj).slice(1, 6);
+      // this.data.labels = ["", ...Object.keys(continentObj).slice(1, 6), ""];
     }
   },
   getData(continentObj, key, caseKey) {
-    this.data.datasets[0].data = continentObj[key].map((country) => {
-      if (country !== undefined) {
-        return country.latest_data[caseKey];
-      } else {
-        return "x";
-      }
-    });
+    // console.log(continentObj, key);
+    if (key === "world") {
+      this.data.datasets[0].data = continentObj.worldDataPerContinentAndStatus;
+    } else {
+      this.data.datasets[0].data = continentObj[key].map((country) => {
+        // console.log(country);
+        if (country !== undefined) {
+          return country.latest_data[caseKey];
+        } else {
+          return "x";
+        }
+      });
+    }
   },
   changeTypeOfChart(type) {
     this.type = type;

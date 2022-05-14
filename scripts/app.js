@@ -7,14 +7,17 @@ let dataChart;
 // *===================================================================== main function ==========================================
 async function main() {
   await getAllCoronaDataInObj(continents);
-  await continents.getDataByCountry("asia", "India");
-  //   console.log(continents.tempData);
-  //   todo: sum all per country need to fix due to it use tempdata on loop and overwrite it
-  //   await continents.sumDataPerContinent("asia");
+
+  //start with world data as default and confirm cases
+  createDropDownOptionToSearch("world");
+  updateNumericData(continents.sumDataForWorldTable());
+  continents.sumDataForWorld("confirmed");
+  //todo : add table data per world and continent also
+
   let myChart = document.getElementById("myChart").getContext("2d");
 
-  chartObj.getLabels(continents, "asia", true);
-  chartObj.getData(continents, "asia", "confirmed");
+  chartObj.getLabels(continents, "world", false);
+  chartObj.getData(continents, "world", "confirmed");
 
   dataChart = new Chart(myChart, chartObj);
 }
@@ -30,13 +33,25 @@ document.getElementById("char-type").addEventListener("change", (e) => {
 
 // ==========================================================================
 // select region to show data
-function createDropDownOptionToSearch(event) {
+function createDropDownOptionToSearch(continentNameStr) {
+  if (continentNameStr === "world") {
+    continents.world.forEach((continent) => {
+      createOptionCountry(continent.name, true);
+    });
+  } else {
+    createOptionCountry(continentNameStr, false);
+  }
+}
+
+function createOptionCountry(continentNameStr, isAllWorld) {
   const dataList = document.getElementById("searchCountry");
-  dataList.innerHTML = "";
-  continents[event.target.value].forEach((country) => {
+  if (!isAllWorld) {
+    dataList.innerHTML = "";
+  }
+  continents[continentNameStr].forEach((country) => {
     const countryOpt = document.createElement("option");
     if (country) {
-      //   console.log(country);
+      // console.log(country);
       countryOpt.value = country.name;
       dataList.appendChild(countryOpt);
     }
@@ -45,14 +60,14 @@ function createDropDownOptionToSearch(event) {
 
 const helperMemory = {
   case: "confirmed",
-  continent: "asia",
+  continent: "world",
 };
-function countrySelectedToShow(eventFather) {
+function countrySelectedToShow(continentObjElement) {
   const selectedCountry = document.querySelector("#searchedAndSelected");
   selectedCountry.addEventListener("change", async () => {
-    if (eventFather) {
-      await continents.getDataByCountry(eventFather.target.value, selectedCountry.value);
-      chartObj.getData(continents, eventFather.target.value, helperMemory.case);
+    if (continentObjElement) {
+      await continents.getDataByCountry(continentObjElement, selectedCountry.value);
+      chartObj.getData(continents, continentObjElement, helperMemory.case);
     }
     updateNumericData(continents.tempData);
   });
@@ -61,25 +76,45 @@ function countrySelectedToShow(eventFather) {
 document.getElementById("data-region").addEventListener("change", async (e) => {
   helperMemory.continent = e.target.value;
 
-  if (e.target.value === "world") {
-    chartObj.getLabels(continents, e.target.value, false);
+  if (e.target.value !== "world") {
+    updateNumericData(continents.sumDataPerContinent(e.target.value));
   } else {
-    chartObj.getLabels(continents, e.target.value, true);
+    updateNumericData(continents.sumDataForWorldTable());
   }
 
-  //   continents.sumDataPerContinent("asia");
-  createDropDownOptionToSearch(e);
-  countrySelectedToShow(e);
+  if (e.target.value === "world") {
+    continents.worldDataPerContinentAndStatus = [];
+    continents.sumDataForWorld("confirmed");
+    chartObj.getLabels(continents, e.target.value, false);
+    chartObj.getData(continents, e.target.value, "confirmed");
+  } else {
+    chartObj.getLabels(continents, e.target.value, true);
+    chartObj.getData(continents, e.target.value, "confirmed");
+    // updateNumericData(continents.tempData);
+  }
+
+  createDropDownOptionToSearch(e.target.value);
+  countrySelectedToShow(e.target.value);
   dataChart.update();
+});
+
+//del searched
+document.getElementById("searchedAndSelected").addEventListener("focus", (e) => {
+  e.target.value = "";
 });
 
 // =========================================================================
 
 document.querySelector(".container-stats-btn").addEventListener("click", (e) => {
   chartObj.getData(continents, helperMemory.continent, e.target.value);
+  if (helperMemory.continent === "world") {
+    chartObj.getLabels(continents, helperMemory.continent, false);
+  } else {
+    chartObj.getLabels(continents, helperMemory.continent, true);
+  }
   helperMemory.case = e.target.value;
   chartObj.setLabelAndColor(e.target.value);
+  continents.worldDataPerContinentAndStatus = [];
+  continents.sumDataForWorld(e.target.value);
   dataChart.update();
-  //   console.log(continents.sumDataPerContinent("asia"));
-  //   console.log(continents.tempData);
 });

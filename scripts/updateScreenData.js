@@ -3,11 +3,8 @@ export function updateNumericData(obj) {
   document.querySelectorAll(".dataPerInput").forEach((numeric, idx) => {
     const objKeyArr = Object.keys(obj);
     const key = objKeyArr[idx];
-    // console.log(objKeyArr);
     numeric.textContent = intToString(obj[key]);
   });
-
-  console.log(obj);
 }
 
 function intToString(n) {
