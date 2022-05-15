@@ -26,9 +26,11 @@ async function setDataToLocalStorage() {
   //fetch data functions
   const countryObjFromFetch = await getCountryObj();
   const coronaObjFromFetch = await getCoronaObj();
+
   //convert obj to string
   const countryObjToLocalStorage = await JSON.stringify(countryObjFromFetch);
   const coronaObjToLocalStorage = await JSON.stringify(coronaObjFromFetch);
+
   // check time to update
   if (Math.floor(Date.now() / 1000 / 60 / 60) - localStorage.getItem("lastUpdateHours") > 2) {
     const houersLeftsince1970 = Math.floor(Date.now() / 1000 / 60 / 60);
@@ -50,14 +52,16 @@ async function setDataToLocalStorage() {
 
 // todo add timeline when to update local storage
 
-setDataToLocalStorage();
+// setDataToLocalStorage();
 
 async function getCountryFromLocalStorage() {
+  await setDataToLocalStorage();
   const countryObj = await JSON.parse(localStorage.getItem("countryData"));
   // console.log(countryObj);
   return countryObj;
 }
 async function getCoronaFromLocalStorage() {
+  await setDataToLocalStorage();
   const coronaObj = await JSON.parse(localStorage.getItem("coronaData"));
   // console.log(coronaObj);
   return coronaObj;
