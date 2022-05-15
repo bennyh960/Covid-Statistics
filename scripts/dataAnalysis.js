@@ -86,7 +86,7 @@ function continentsAddCountries(iterator, array, continent, coronaByCountryArray
 export async function getAllCoronaDataInObj(obj) {
   const coronaData = await getCoronaFromLocalStorage();
   const countryData = await getCountryFromLocalStorage();
-  countryData.forEach((country) => {
+  await countryData.forEach((country) => {
     buildContinentsObj(country, obj, coronaData.data);
   });
 }
